@@ -8,6 +8,8 @@ import com.sample.reddit.feed.domain.Post
 
 class FeedRecyclerViewAdapter : RecyclerView.Adapter<FeedRowViewHolder>() {
 
+    var onItemClickListener: ((Post) -> Unit)? = null
+
     var items: List<Post> = emptyList()
         set(value) {
             field = value
@@ -23,6 +25,7 @@ class FeedRecyclerViewAdapter : RecyclerView.Adapter<FeedRowViewHolder>() {
 
     override fun onBindViewHolder(holder: FeedRowViewHolder, position: Int) {
         holder.binding.title.text = items[position].title
+        holder.binding.root.setOnClickListener { onItemClickListener?.invoke(items[position]) }
     }
 
 }

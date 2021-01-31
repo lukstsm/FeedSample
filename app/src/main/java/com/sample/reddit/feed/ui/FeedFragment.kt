@@ -1,16 +1,20 @@
 package com.sample.reddit.feed.ui
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.reddit.R
+import com.sample.reddit.core.ui.launchChromeTab
 import com.sample.reddit.databinding.FeedFragmentBinding
 import com.sample.reddit.feed.domain.Feed
+import com.sample.reddit.feed.domain.Post
 import com.sample.reddit.feed.presentation.FeedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -26,6 +30,7 @@ class FeedFragment : Fragment() {
 
         binding.feedRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.feedRecyclerView.adapter = adapter
+        adapter.onItemClickListener = this::onItemClicked
 
         return binding.root
     }
@@ -43,5 +48,9 @@ class FeedFragment : Fragment() {
 
     private fun onState(feed: Feed) {
         adapter.items = feed.posts
+    }
+
+    private fun onItemClicked(post: Post) {
+        requireContext().launchChromeTab(post.url)
     }
 }
