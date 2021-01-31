@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.sample.reddit.FirstFragment"
+        android:name="com.sample.reddit.feed.FeedFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/feed_fragment">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
