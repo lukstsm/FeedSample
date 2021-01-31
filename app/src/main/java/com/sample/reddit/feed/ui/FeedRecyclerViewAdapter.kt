@@ -4,10 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sample.reddit.databinding.FeedRowBinding
+import com.sample.reddit.feed.domain.Post
 
 class FeedRecyclerViewAdapter : RecyclerView.Adapter<FeedRowViewHolder>() {
 
-    var items: List<String> = emptyList()
+    var items: List<Post> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItemCount(): Int = items.size
 
@@ -17,7 +22,7 @@ class FeedRecyclerViewAdapter : RecyclerView.Adapter<FeedRowViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FeedRowViewHolder, position: Int) {
-        holder.binding.title.text = items[position]
+        holder.binding.title.text = items[position].title
     }
 
 }

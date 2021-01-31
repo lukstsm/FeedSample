@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.reddit.R
 import com.sample.reddit.databinding.FeedFragmentBinding
+import com.sample.reddit.feed.domain.Feed
 import com.sample.reddit.feed.presentation.FeedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -37,10 +38,10 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
-        viewModel.items.observe(viewLifecycleOwner, ::onState)
+        viewModel.feed.observe(viewLifecycleOwner, ::onState)
     }
 
-    private fun onState(items: List<String>) {
-        adapter.items = items
+    private fun onState(feed: Feed) {
+        adapter.items = feed.posts
     }
 }
