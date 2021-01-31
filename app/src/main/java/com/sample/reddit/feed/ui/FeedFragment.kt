@@ -1,29 +1,46 @@
-package com.sample.reddit.feed
+package com.sample.reddit.feed.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.reddit.R
+import com.sample.reddit.databinding.FeedFragmentBinding
+import com.sample.reddit.feed.presentation.FeedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FeedFragment : Fragment() {
 
     private val viewModel: FeedViewModel by viewModel()
+    private val adapter = FeedRecyclerViewAdapter()
+
+    private lateinit var binding: FeedFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.feed_fragment, container, false)
+        binding = FeedFragmentBinding.inflate(inflater, container, false)
+
+        binding.feedRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.feedRecyclerView.adapter = adapter
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_first).setOnClickListener {
+        binding.buttonFirst.setOnClickListener {
             viewModel.onButtonTap()
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+
+        viewModel.items.observe(viewLifecycleOwner, ::onState)
+    }
+
+    private fun onState(items: List<String>) {
+        adapter.items = items
     }
 }
