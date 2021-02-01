@@ -3,6 +3,7 @@ package com.sample.reddit.feed.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sample.reddit.R
 import com.sample.reddit.databinding.FeedRowBinding
 import com.sample.reddit.feed.domain.Post
 
@@ -24,8 +25,9 @@ class FeedRecyclerViewAdapter : RecyclerView.Adapter<FeedRowViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FeedRowViewHolder, position: Int) {
+        holder.binding.author.text = holder.itemView.context.getString(R.string.post_author, items[position].author)
         holder.binding.title.text = items[position].title
-        holder.binding.root.setOnClickListener { onItemClickListener?.invoke(items[position]) }
+        holder.itemView.setOnClickListener { onItemClickListener?.invoke(items[position]) }
     }
 
 }

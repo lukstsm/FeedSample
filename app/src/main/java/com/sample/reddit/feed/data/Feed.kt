@@ -6,4 +6,4 @@ data class FeedData(val children: List<FeedItem>)
 
 data class FeedItem(val data: FeedItemData)
 
-data class FeedItemData(val title: String, val selftext: String, val url: String)
+data class FeedItemData(val title: String, val selftext: String, val author: String, val url: String)

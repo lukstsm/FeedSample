@@ -7,7 +7,7 @@ class FeedMapper {
     fun mapToDomain(feed: FeedData): Feed {
         return Feed(
             feed.data.children.map {
-                Post(it.data.title, it.data.selftext, it.data.url)
+                Post(it.data.title, it.data.selftext, it.data.author, it.data.url)
             }
         )
     }
