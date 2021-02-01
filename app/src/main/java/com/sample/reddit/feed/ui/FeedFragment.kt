@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sample.reddit.R
 import com.sample.reddit.core.ui.launchChromeTab
 import com.sample.reddit.databinding.FeedFragmentBinding
-import com.sample.reddit.feed.domain.Feed
 import com.sample.reddit.feed.domain.Post
 import com.sample.reddit.feed.presentation.FeedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,6 +36,15 @@ class FeedFragment : Fragment() {
                 setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.feed_divider)!!)
             }
         )
+
+        binding.feedRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.items.size - 1) {
+                    viewModel.onLastPostReached()
+                }
+            }
+        })
+
         adapter.onItemClickListener = this::onItemClicked
 
         return binding.root
@@ -44,11 +52,11 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.feed.observe(viewLifecycleOwner, ::onState)
+        viewModel.posts.observe(viewLifecycleOwner, ::onState)
     }
 
-    private fun onState(feed: Feed) {
-        adapter.items = feed.posts
+    private fun onState(posts: List<Post>) {
+        adapter.items = posts
     }
 
     private fun onItemClicked(post: Post) {
