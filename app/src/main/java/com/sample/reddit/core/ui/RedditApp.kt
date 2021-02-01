@@ -1,4 +1,4 @@
-package com.sample.reddit.ui
+package com.sample.reddit.core.ui
 
 import android.app.Application
 import com.sample.reddit.core.di.coreModule

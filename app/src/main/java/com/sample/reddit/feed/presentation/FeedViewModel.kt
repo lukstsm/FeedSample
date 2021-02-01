@@ -28,10 +28,6 @@ class FeedViewModel(feedUseCase: FeedUseCase) : BaseViewModel() {
         Log.d("FeedViewModel", "Error retrieving feed.")
     }
 
-    fun onButtonTap() {
-        Log.d("FeedViewModel", "button tapped.")
-    }
-
     companion object {
         private const val SUBREDIT = "Android"
     }
